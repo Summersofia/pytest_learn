@@ -91,3 +91,51 @@ def unlogin_config():
         }
         return config
     return _unlogin_config
+
+@pytest.fixture
+def wrong_pwd():
+    tool = Decrypt_body()
+    body = {
+        "orgCode": "",
+        "isWeb": 1,
+        # 动态时间戳（毫秒）
+        "tm": int(time.time() * 1000),
+        "userId": "zby",
+        "userPwd": "zxcvasd",
+        "dataBase": "0004",
+        "account": "0004",
+        "CustomerCode": "0004",
+        "language": "zh-Cn",
+        "sid": "7df03a2d6fac48f2bf0055afe8179898"
+    }
+    encrypted_body_value = tool.encrypt_for_request(json.dumps(body, separators=(',', ':'), ensure_ascii=False))
+    raw_body = f"body={encrypted_body_value}"
+    params = {
+        'raw_body': raw_body,
+        'body': body,
+    }
+    return params
+
+@pytest.fixture
+def wrong_user():
+    tool = Decrypt_body()
+    body = {
+        "orgCode": "",
+        "isWeb": 1,
+        # 动态时间戳（毫秒）
+        "tm": int(time.time() * 1000),
+        "userId": "faucka",
+        "userPwd": "",
+        "dataBase": "0004",
+        "account": "0004",
+        "CustomerCode": "0004",
+        "language": "zh-Cn",
+        "sid": "7df03a2d6fac48f2bf0055afe8179898"
+    }
+    encrypted_body_value = tool.encrypt_for_request(json.dumps(body, separators=(',', ':'), ensure_ascii=False))
+    raw_body = f"body={encrypted_body_value}"
+    params = {
+        'raw_body': raw_body,
+        'body': body,
+    }
+    return params
